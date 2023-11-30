@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://v7lnnxih4qtm"]
+
+[ext_resource type="Script" path="res://scritps/Player.gd" id="1_d68ee"]
+[ext_resource type="Texture2D" uid="uid://i02pe5s57e6e" path="res://img/crosshair.png" id="2_1osld"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_isj8u"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_liyek"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_re1gm"]
+height = 1.83204
+radius = 0.362327
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_d68ee")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_isj8u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1.00172, 0, 0, 0, 1.00172, 0, 0, 0, 1.00172, 0, 0, 0)
+visible = false
+layers = 2
+mesh = SubResource("CapsuleMesh_liyek")
+skeleton = NodePath("../..")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50155, 0)
+
+[node name="Pivot" type="Node3D" parent="Head"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50155, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_1osld")
+
+[node name="obstacle_detector" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00155, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacle_detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88741, 0)
+shape = SubResource("CylinderShape3D_re1gm")
+
+[connection signal="body_entered" from="obstacle_detector" to="." method="_on_obstacle_detector_body_entered"]
+[connection signal="body_exited" from="obstacle_detector" to="." method="_on_obstacle_detector_body_exited"]
