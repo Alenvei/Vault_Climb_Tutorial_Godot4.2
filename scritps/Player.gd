@@ -119,6 +119,8 @@ func vault_animation(place_to_land):
 	
 	# First Tween animation will make player move up.
 	var vertical_climb = Vector3(global_transform.origin.x, place_to_land.position.y, global_transform.origin.z)
+	# If your player controller's pivot is located in the middle use this: 
+	# var vertical_climb = Vector3(global_transform.origin.x, (place_to_land.position.y + collision_shape.shape.height / 2), global_transform.origin.z)
 	var vertical_tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 	vertical_tween.tween_property(self, "global_transform:origin", vertical_climb, 0.4)
 	
